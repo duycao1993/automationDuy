@@ -3,33 +3,28 @@ import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import utilities.ExcelReader;
-import utilities.TestData;
-import util.LoginPage;
-import java.util.List;
+import util.HomePage;
+import util.HomePageHighLightBoard;
 
-public class LoginTest {
+import java.util.logging.Logger;
+
+public class HighLightBoardTest {
+    private Logger log = Logger.getLogger(HighLightBoardTest.class.toString());
     private static WebDriver driver;
-    private ExcelReader er;
-    private List<TestData> scenario;
 
     @BeforeClass
     public static void setUpBeforeClass(){
-
         System.setProperty("webdriver.chrome.driver", Configuration.getInstance().rootPath+ "/src/library/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         //options.addArguments("--start-maximized");
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         driver = new ChromeDriver(options);
     }
 
     @Before
     public void setUp(){
-        er = new ExcelReader();
-        scenario = er.readDataExcel(Configuration.getInstance().dataPath);
-
         driver.get("http://tinhte.vn");
-
+        driver.manage().window().fullscreen();
     }
 
     @After
@@ -37,13 +32,9 @@ public class LoginTest {
         driver.quit();
     }
 
-    @Test
-    public void loginTest(){
-        boolean result = true;
-        for(TestData data : scenario){
-            LoginPage loginPage = new LoginPage();
-            result = loginPage.login(driver, data.getUserName(), data.getPassWord());
-        }
-        Assert.assertTrue(result);
+    @Test(timeout = 20000)
+    public void testHightLight(){
+        HomePage hp = new HomePage();
+        Assert.assertTrue(hp.getHighlightBoardByLocation(driver, HomePageHighLightBoard.TopHighLightRight).getText().contains("Dìm hàng mod"));
     }
 }

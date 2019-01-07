@@ -8,15 +8,25 @@ import java.util.logging.Logger;
 public class Configuration {
     Logger log = Logger.getLogger(Configuration.class.toString());
 
-    public static String rootPath = System.getProperty("user.dir");
-    public static String dataPath;
-    public static String reportPath;
+    public String rootPath = System.getProperty("user.dir");
+    public String dataPath;
+    public String reportPath;
+    public static Configuration Instance;
 
-    public Configuration() {
+    private Configuration() {
         Properties prop = getProps();
         dataPath = rootPath + prop.getProperty("DATA_INPUT_PATH");
         reportPath = rootPath + prop.getProperty("REPORT_PATH") + "/";
     }
+
+    public static Configuration getInstance(){
+        if(Instance == null){
+            Instance = new Configuration();
+        }
+        return Instance;
+    }
+
+
 
     private Properties getProps(){
         Properties prop = null;
