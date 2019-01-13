@@ -11,20 +11,26 @@ import java.util.logging.Logger;
 public class HighLightBoardTest {
     private Logger log = Logger.getLogger(HighLightBoardTest.class.toString());
     private static WebDriver driver;
+    private ChromeOptions options;
 
     @BeforeClass
     public static void setUpBeforeClass(){
-        System.setProperty("webdriver.chrome.driver", Configuration.getInstance().rootPath+ "/src/library/chromedriver.exe");
-        ChromeOptions options = new ChromeOptions();
+
         //options.addArguments("--start-maximized");
         //options.addArguments("--headless");
-        driver = new ChromeDriver(options);
+
     }
 
     @Before
     public void setUp(){
+        System.setProperty("webdriver.chrome.driver", Configuration.getInstance().rootPath+ "/src/library/chromedriver.exe");
+        options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
+
+
         driver.get("http://tinhte.vn");
-        driver.manage().window().fullscreen();
+        //driver.manage().window().fullscreen();
     }
 
     @After
@@ -32,9 +38,9 @@ public class HighLightBoardTest {
         driver.quit();
     }
 
-    @Test(timeout = 20000)
+    @Test(expected = RuntimeException.class)
     public void testHightLight(){
-        HomePage hp = new HomePage();
-        Assert.assertTrue(hp.getHighlightBoardByLocation(driver, HomePageHighLightBoard.TopHighLightRight).getText().contains("Dìm hàng mod"));
+        HomePage hp = new HomePage(driver);
+        Assert.assertTrue("Verify the highlight board",  hp.getHighlightBoardByLocation(HomePageHighLightBoard.TopHighLightRight).getText().contains("Dìm hàng mod"));
     }
 }
