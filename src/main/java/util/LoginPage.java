@@ -46,7 +46,7 @@ public class LoginPage {
 
             WaitUtil wait = new WaitUtil(driver);
 
-            wait.isElementPresent(elementToCheck,10);
+            wait.isElementPresent(elementToCheck,5);
 
             driver.findElement(elementToCheck).findElement(By.xpath("div/div[2]/div[2]")).click();
 

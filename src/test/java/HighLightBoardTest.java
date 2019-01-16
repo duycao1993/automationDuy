@@ -28,10 +28,10 @@ public class HighLightBoardTest {
         System.setProperty("webdriver.chrome.driver", Configuration.getInstance().rootPath+ "/src/library/chromedriver.exe");
         options = new ChromeOptions();
         //options.addArguments("--headless");
-        driver = new ChromeDriver(options);
+        //driver = new ChromeDriver(options);
 
 
-        driver.get("http://tinhte.vn");
+        //driver.get("http://tinhte.vn");
         //driver.manage().window().fullscreen();
     }
 
@@ -40,6 +40,7 @@ public class HighLightBoardTest {
         driver.quit();
     }
 
+    @Ignore
     @Test
     public void testHightLight(){
         HomePage hp = new HomePage(driver);
