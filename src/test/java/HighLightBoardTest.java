@@ -1,11 +1,13 @@
 import Environement.Configuration;
 import org.junit.*;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import util.HomePage;
 import util.HomePageHighLightBoard;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 public class HighLightBoardTest {
@@ -25,7 +27,7 @@ public class HighLightBoardTest {
     public void setUp(){
         System.setProperty("webdriver.chrome.driver", Configuration.getInstance().rootPath+ "/src/library/chromedriver.exe");
         options = new ChromeOptions();
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         driver = new ChromeDriver(options);
 
 
@@ -38,7 +40,7 @@ public class HighLightBoardTest {
         driver.quit();
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testHightLight(){
         HomePage hp = new HomePage(driver);
         Assert.assertTrue("Verify the highlight board",  hp.getHighlightBoardByLocation(HomePageHighLightBoard.TopHighLightRight).getText().contains("Dìm hàng mod"));

@@ -1,13 +1,11 @@
 package utilities;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.formula.functions.Column;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openxmlformats.schemas.drawingml.x2006.chart.CTStrData;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,25 +19,56 @@ import java.util.logging.Logger;
 public class ExcelReader {
     private Logger log = Logger.getLogger(ExcelReader.class.toString());
 
-    private Object getCellValue(Cell cell) {
-        switch (cell.getCellType()) {
-            case STRING:
-                return cell.getStringCellValue();
+//    public List<TestData> readDataExcel(String excelFilePath) {
+//        List<TestData> listUsers = new ArrayList<>();
+//        try{
+//            log.info("Reading excel file!");
+//            FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
+//
+//            Workbook workbook = getWorkbook(inputStream, excelFilePath);
+//            Sheet sheet = workbook.getSheet("Data");
+//            Iterator<Row> rowIterator = sheet.iterator();
+//
+//            //Next the header
+//            rowIterator.next();
+//
+//            while (rowIterator.hasNext()) {
+//                Row row = rowIterator.next();
+//
+//                // Now let's iterate over the columns of the current row
+//                Iterator<Cell> cellIterator = row.cellIterator();
+//                int columnIndex = 0;
+//
+//                TestData data = new TestData();
+//
+//                while (cellIterator.hasNext()) {
+//                    Cell cell = cellIterator.next();
+//
+//                    if(cell.getColumnIndex() == 0){
+//                        int testIndex = (int) cell.getNumericCellValue();
+//                      data.setCaseIndex(testIndex);
+//                    } else if (cell.getColumnIndex() == 1){
+//                        data.setUserName(cell.getStringCellValue());
+//                    } else if(cell.getColumnIndex() == 2){
+//                        data.setPassWord(cell.getStringCellValue());
+//                    }
+//                }
+//
+//                listUsers.add(data);
+//            }
+//
+//            workbook.close();
+//            inputStream.close();
+//        } catch (Exception e){
+//            log.throwing(ExcelReader.class.toString(), "readDataExcel", e );
+//        }
+//        log.info("Reading excel file successful");
+//        return listUsers;
+//    }
 
-            case BOOLEAN:
-                return cell.getBooleanCellValue();
-
-            case NUMERIC:
-                return cell.getNumericCellValue();
-            default:
-                break;
-        }
-
-        return null;
-    }
-
-    public List<TestData> readDataExcel(String excelFilePath) {
-        List<TestData> listUsers = new ArrayList<>();
+    //For Test parameters
+    public Collection<Object> readDataExcel(String excelFilePath) {
+        List<Object> listUsers = new ArrayList<>();
         try{
             log.info("Reading excel file!");
             FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
@@ -56,24 +85,23 @@ public class ExcelReader {
 
                 // Now let's iterate over the columns of the current row
                 Iterator<Cell> cellIterator = row.cellIterator();
-                int columnIndex = 0;
 
-                TestData data = new TestData();
+                List<Object> user = new ArrayList<>();
 
                 while (cellIterator.hasNext()) {
                     Cell cell = cellIterator.next();
 
                     if(cell.getColumnIndex() == 0){
-                        int testIndex = (int) cell.getNumericCellValue();
-                      data.setCaseIndex(testIndex);
+                        int rowIndex = (int) cell.getNumericCellValue();
+                        user.add(rowIndex);
                     } else if (cell.getColumnIndex() == 1){
-                        data.setUserName(cell.getStringCellValue());
+                        user.add(cell.getStringCellValue());
                     } else if(cell.getColumnIndex() == 2){
-                        data.setPassWord(cell.getStringCellValue());
+                        user.add(cell.getStringCellValue());
                     }
                 }
 
-                listUsers.add(data);
+                listUsers.add(user.toArray());
             }
 
             workbook.close();

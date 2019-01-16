@@ -35,8 +35,8 @@ public class LoginPage {
     public boolean login(WebDriver driver , String userName, String passWord){
         log.info("Starting login");
 
-        By elementToCheck = By.id("abc");
-
+        By elementToCheck = By.xpath("//div[@id='app']/div[2]/header");
+        boolean result;
         try{
             userNameTxt.sendKeys(userName);
 
@@ -45,16 +45,24 @@ public class LoginPage {
             submitBtn.click();
 
             WaitUtil wait = new WaitUtil(driver);
-            if(!wait.isElementPresent(elementToCheck,5)){
-                return false;
-            }
+
+            wait.isElementPresent(elementToCheck,10);
+
+            driver.findElement(elementToCheck).findElement(By.xpath("div/div[2]/div[2]")).click();
+
+            result = wait.isElementPresent(By.xpath("//div[@class='appWrapper-UserMenuItem']"),3);
 
         } catch (Exception e){
             log.info("Error while loging " + e);
             return false;
         }
 
-        log.info("Login successful");
+        if(result){
+            log.info("Login successful");
+        } else {
+            log.info("loin failed");
+        }
+
         return true;
     }
 }
