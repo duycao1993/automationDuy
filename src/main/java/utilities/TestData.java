@@ -2,9 +2,9 @@ package utilities;
 
 public class TestData {
 
-    private Integer caseIndex;
+    private int caseIndex;
 
-    public Integer getCaseIndex() {
+    public int getCaseIndex() {
         return caseIndex;
     }
 

@@ -7,9 +7,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WaitUtil {
 
-    public boolean isElementPresent(WebDriver driver, By element, int maxDuration){
+    private WebDriver webDriver;
+
+    public WaitUtil(WebDriver webDriver) {
+        this.webDriver = webDriver;
+    }
+
+    public boolean isElementPresent(By element, int maxDuration){
         try{
-            new WebDriverWait(driver, maxDuration).until(ExpectedConditions.presenceOfElementLocated(element));
+            new WebDriverWait(webDriver, maxDuration).until(ExpectedConditions.presenceOfElementLocated(element));
             return true;
         } catch (Exception e){
             return false;

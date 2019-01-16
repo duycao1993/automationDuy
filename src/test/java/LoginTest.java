@@ -1,5 +1,6 @@
 import Environement.Configuration;
 import org.junit.*;
+import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,7 +20,7 @@ public class LoginTest {
         System.setProperty("webdriver.chrome.driver", Configuration.getInstance().rootPath+ "/src/library/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         //options.addArguments("--start-maximized");
-        options.addArguments("--headless");
+        //options.addArguments("--headless");
         driver = new ChromeDriver(options);
     }
 
@@ -28,7 +29,7 @@ public class LoginTest {
         er = new ExcelReader();
         scenario = er.readDataExcel(Configuration.getInstance().dataPath);
 
-        driver.get("http://tinhte.vn");
+        driver.get("https://accounts.chotot.com");
 
     }
 
@@ -41,7 +42,7 @@ public class LoginTest {
     public void loginTest(){
         boolean result = true;
         for(TestData data : scenario){
-            LoginPage loginPage = new LoginPage();
+            LoginPage loginPage = new LoginPage(driver);
             result = loginPage.login(driver, data.getUserName(), data.getPassWord());
         }
         Assert.assertTrue(result);

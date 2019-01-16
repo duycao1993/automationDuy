@@ -1,15 +1,19 @@
 package utilities;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.formula.functions.Column;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openxmlformats.schemas.drawingml.x2006.chart.CTStrData;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -41,42 +45,37 @@ public class ExcelReader {
             FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 
             Workbook workbook = getWorkbook(inputStream, excelFilePath);
-            Sheet firstSheet = workbook.getSheet("Data");
-            Iterator<Row> iterator = firstSheet.iterator();
+            Sheet sheet = workbook.getSheet("Data");
+            Iterator<Row> rowIterator = sheet.iterator();
 
-            while (iterator.hasNext()) {
-                Row nextRow = iterator.next();
+            //Next the header
+            rowIterator.next();
 
-                Iterator<Cell> cellIterator = nextRow.cellIterator();
-                TestData user = new TestData();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
 
-                boolean isHeader = true;
+                // Now let's iterate over the columns of the current row
+                Iterator<Cell> cellIterator = row.cellIterator();
+                int columnIndex = 0;
+
+                TestData data = new TestData();
 
                 while (cellIterator.hasNext()) {
-                    Cell nextCell = cellIterator.next();
+                    Cell cell = cellIterator.next();
 
-                    if(isHeader){
-                        isHeader = false;
-                        continue;
+                    if(cell.getColumnIndex() == 0){
+                        int testIndex = (int) cell.getNumericCellValue();
+                      data.setCaseIndex(testIndex);
+                    } else if (cell.getColumnIndex() == 1){
+                        data.setUserName(cell.getStringCellValue());
+                    } else if(cell.getColumnIndex() == 2){
+                        data.setPassWord(cell.getStringCellValue());
                     }
-
-                    int columnIndex = nextCell.getColumnIndex();
-
-                    switch (columnIndex) {
-                        case 0:
-                            user.setCaseIndex((Integer) getCellValue(nextCell));
-                            break;
-                        case 1:
-                            user.setUserName((String) getCellValue(nextCell));
-                            break;
-                        case 2:
-                            user.setPassWord((String) getCellValue(nextCell));
-                            break;
-                    }
-
                 }
-                listUsers.add(user);
+
+                listUsers.add(data);
             }
+
             workbook.close();
             inputStream.close();
         } catch (Exception e){
