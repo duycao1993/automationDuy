@@ -1,56 +1,58 @@
 package utilities;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ExcelWriter {
 
-    public void createHeaderRow(Sheet sheet) {
-        CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
-        Font font = sheet.getWorkbook().createFont();
-        font.setBold(true);
-        font.setFontHeightInPoints((short) 16);
-        cellStyle.setFont(font);
+    public void writeReport(String excelFilePath, HashMap<Integer, List<String>> data) {
+        try {
+            FileInputStream fIPS= new FileInputStream(excelFilePath); //Read the spreadsheet that needs to be updated
+            Workbook wb;
+            Sheet worksheet;
+            wb = getWorkbook(fIPS, excelFilePath); //If there is already data in a workbook
+            worksheet = wb.getSheet("Data");
+            //Access the worksheet, so that we can update / modify it
+            Row row;
+            Cell cell;
+            for(Map.Entry<Integer, List<String>> dataValue : data.entrySet()) {
+                row = worksheet.getRow(dataValue.getKey());
+                row.getCell(3).setCellValue(dataValue.getValue().get(0));
+                row.getCell(5).setCellValue(dataValue.getValue().get(1));
+                row.getCell(6).setCellValue(dataValue.getValue().get(2));
+            }
+            fIPS.close(); //Close the InputStream
+            FileOutputStream output_file =new FileOutputStream(excelFilePath);//Open FileOutputStream to write updates
+            wb.write(output_file); //write changes
+            output_file.close();  //close the stream
 
-        Row row = sheet.createRow(0);
-        Cell cellTestcase = row.createCell(1);
-
-        cellTestcase.setCellStyle(cellStyle);
-        cellTestcase.setCellValue("TestCase");
-
-        Cell cellName = row.createCell(2);
-        cellName.setCellStyle(cellStyle);
-        cellName.setCellValue("Name");
-
-        Cell cellEmail = row.createCell(3);
-        cellEmail.setCellStyle(cellStyle);
-        cellEmail.setCellValue("Email");
-
-        Cell cellPass = row.createCell(4);
-        cellPass.setCellStyle(cellStyle);
-        cellPass.setCellValue("Pass");
-
-        Cell cellPassConfirm = row.createCell(5);
-        cellPassConfirm.setCellStyle(cellStyle);
-        cellPassConfirm.setCellValue("PassConfirm");
-
-        Cell cellTestResult = row.createCell(6);
-        cellPassConfirm.setCellStyle(cellStyle);
-        cellPassConfirm.setCellValue("TestResult");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+    private Workbook getWorkbook(FileInputStream inputStream, String excelFilePath) throws IOException {
+        Workbook workbook;
 
-//    private Workbook getWorkbook(String excelFilePath)
-//            throws IOException {
-//        Workbook workbook = null;
-//
-//        if (excelFilePath.endsWith("xlsx")) {
-//            workbook = new XSSFWorkbook();
-//        } else if (excelFilePath.endsWith("xls")) {
-//            workbook = new HSSFWorkbook();
-//        } else {
-//            throw new IllegalArgumentException("The specified file is not Excel file");
-//        }
-//
-//        return workbook;
-//    }
+        if (excelFilePath.endsWith("xlsx")) {
+            workbook = new XSSFWorkbook(inputStream);
+        } else if (excelFilePath.endsWith("xls")) {
+            workbook = new HSSFWorkbook(inputStream);
+        } else {
+            throw new IllegalArgumentException("The specified file is not Excel file");
+        }
+
+        return workbook;
+    }
 }

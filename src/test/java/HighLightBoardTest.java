@@ -25,7 +25,7 @@ public class HighLightBoardTest {
 
     @Before
     public void setUp(){
-        System.setProperty("webdriver.chrome.driver", Configuration.getInstance().rootPath+ "/src/library/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", Configuration.getInstance().getRootPath()+ "/src/library/chromedriver.exe");
         options = new ChromeOptions();
         //options.addArguments("--headless");
         //driver = new ChromeDriver(options);

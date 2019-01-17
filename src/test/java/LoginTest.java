@@ -1,21 +1,31 @@
 import Environement.Configuration;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.time.StopWatch;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import utilities.ExcelReader;
+import utilities.ExcelWriter;
 import utilities.TestData;
 import util.LoginPage;
+import utilities.TestUtil;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 @RunWith(Parameterized.class)
 public class LoginTest {
     private static WebDriver driver;
     private static ExcelReader er;
+    private StopWatch couting;
 
     private int testIndex;
     private String userName;
@@ -24,11 +34,10 @@ public class LoginTest {
     @Parameterized.Parameters
     public static Collection getData(){
         er = new ExcelReader();
-        return er.readDataExcel(Configuration.getInstance().dataPath);
+        return er.readDataExcel(Configuration.getInstance().getDataPath());
     }
 
     public LoginTest(int testIndex, String userName, String passWord) {
-        super();
         this.testIndex = testIndex;
         this.userName = userName;
         this.passWord = passWord;
@@ -36,7 +45,7 @@ public class LoginTest {
 
     @BeforeClass
     public static void setUpBeforeClass(){
-        System.setProperty("webdriver.chrome.driver", Configuration.getInstance().rootPath+ "/src/library/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", Configuration.getInstance().getRootPath()+ "/src/library/chromedriver.exe");
     }
 
     @Before
@@ -45,11 +54,15 @@ public class LoginTest {
         //options.addArguments("--start-maximized");
         //options.addArguments("--headless");
         driver = new ChromeDriver(options);
-        driver.get("https://accounts.chotot.com");
+        couting = new StopWatch();
+        couting.start();
+        driver.get(Configuration.getInstance().getWebSite());
     }
 
     @After
     public void tearDown(){
+        TestUtil testUtil = new TestUtil(driver);
+        testUtil.takeScreenShot(String.valueOf(this.testIndex));
         driver.quit();
     }
 
@@ -57,6 +70,21 @@ public class LoginTest {
     public void loginTest(){
         LoginPage loginPage = new LoginPage(driver);
         boolean isCorrect = loginPage.login(driver, userName, passWord);
+        couting.stop();
+        ExcelWriter writer = new ExcelWriter();
+        writer.writeReport(Configuration.getInstance().getDataPath(),
+                putDataIntoMap(null, String.valueOf(isCorrect), couting.getTime()/1000));
         Assert.assertTrue(isCorrect);
+    }
+
+    private HashMap<Integer, List<String>> putDataIntoMap(String result, String status, long executeTime){
+        HashMap<Integer, List<String>> map = new HashMap<>();
+        List<String> values = new ArrayList<>();
+        values.add(result);
+        values.add(status);
+        values.add(String.valueOf(executeTime));
+        map.put(this.testIndex, values);
+
+        return map;
     }
 }

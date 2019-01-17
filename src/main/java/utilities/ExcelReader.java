@@ -1,5 +1,6 @@
 package utilities;
 
+import Environement.Configuration;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -74,17 +75,39 @@ public class ExcelReader {
             FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
 
             Workbook workbook = getWorkbook(inputStream, excelFilePath);
-            Sheet sheet = workbook.getSheet("Data");
+
+            //Read environnment sheet
+            Sheet sheet = workbook.getSheet("Environnement");
             Iterator<Row> rowIterator = sheet.iterator();
 
             //Next the header
             rowIterator.next();
 
+            Row row = rowIterator.next();
+            Iterator<Cell> cellIterator = row.cellIterator();
+            while (cellIterator.hasNext()){
+                Cell cell = cellIterator.next();
+                if(cell.getColumnIndex() == 3){
+                    Configuration.getInstance().setBrowser(cell.getStringCellValue());
+                } else  if (cell.getColumnIndex() == 4){
+                    Configuration.getInstance().setWebSite(cell.getStringCellValue());
+                } else if (cell.getColumnIndex() == 5){
+                    int timeOut = (int) cell.getNumericCellValue();
+                    Configuration.getInstance().setTimeOut(timeOut);
+                }
+            }
+
+            sheet = workbook.getSheet("Data");
+            rowIterator = sheet.iterator();
+
+            //Next the header
+            rowIterator.next();
+
             while (rowIterator.hasNext()) {
-                Row row = rowIterator.next();
+                row = rowIterator.next();
 
                 // Now let's iterate over the columns of the current row
-                Iterator<Cell> cellIterator = row.cellIterator();
+                cellIterator = row.cellIterator();
 
                 List<Object> user = new ArrayList<>();
 

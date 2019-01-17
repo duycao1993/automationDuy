@@ -1,12 +1,14 @@
 package util;
 
+import Environement.Configuration;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utilities.WaitUtil;
+
+import java.io.File;
 import java.util.List;
 
 public class LoginPage {
@@ -37,6 +39,7 @@ public class LoginPage {
 
         By elementToCheck = By.xpath("//div[@id='app']/div[2]/header");
         boolean result;
+
         try{
             userNameTxt.sendKeys(userName);
 
@@ -46,11 +49,12 @@ public class LoginPage {
 
             WaitUtil wait = new WaitUtil(driver);
 
-            wait.isElementPresent(elementToCheck,5);
-
-            driver.findElement(elementToCheck).findElement(By.xpath("div/div[2]/div[2]")).click();
-
-            result = wait.isElementPresent(By.xpath("//div[@class='appWrapper-UserMenuItem']"),3);
+            if(wait.isElementPresent(elementToCheck, Configuration.getInstance().getTimeOut())){
+                driver.findElement(elementToCheck).findElement(By.xpath("div/div[2]/div[2]")).click();
+                result = wait.isElementPresent(By.xpath("//div[@class='appWrapper-UserMenuItem']"),3);
+            } else {
+                result = false;
+            }
 
         } catch (Exception e){
             log.info("Error while loging " + e);
@@ -63,6 +67,6 @@ public class LoginPage {
             log.info("loin failed");
         }
 
-        return true;
+        return result;
     }
 }
