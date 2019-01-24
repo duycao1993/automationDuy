@@ -9,11 +9,8 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import utilities.ExcelReader;
-import utilities.ExcelWriter;
-import utilities.TestData;
+import utilities.*;
 import util.LoginPage;
-import utilities.TestUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -67,14 +64,20 @@ public class LoginTest {
     }
 
     @Test
-    public void loginTest(){
+    public void loginTest() {
         LoginPage loginPage = new LoginPage(driver);
-        boolean isCorrect = loginPage.login(driver, userName, passWord);
+        String exceptionType;
+//        try{
+//            loginPage.login(driver, userName, passWord);
+//        } catch (LoginFailedException lg){
+//            exceptionType = lg.getExceptionType();
+//        }
+
         couting.stop();
-        ExcelWriter writer = new ExcelWriter();
-        writer.writeReport(Configuration.getInstance().getDataPath(),
-                putDataIntoMap(null, String.valueOf(isCorrect), couting.getTime()/1000));
-        Assert.assertTrue(isCorrect);
+        ExcelWriter writer = new ExcelWriter(Configuration.getInstance().getDataPath());
+//        if()
+//        writer.writeReport(putDataIntoMap(null, String.valueOf(isCorrect), couting.getTime()/1000));
+//        Assert.assertTrue(isCorrect);
     }
 
     private HashMap<Integer, List<String>> putDataIntoMap(String result, String status, long executeTime){
@@ -84,7 +87,6 @@ public class LoginTest {
         values.add(status);
         values.add(String.valueOf(executeTime));
         map.put(this.testIndex, values);
-
         return map;
     }
 }

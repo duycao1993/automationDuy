@@ -16,7 +16,13 @@ import java.util.Map;
 
 public class ExcelWriter {
 
-    public void writeReport(String excelFilePath, HashMap<Integer, List<String>> data) {
+    private String excelFilePath;
+
+    public ExcelWriter(String excelFilePath) {
+        this.excelFilePath = excelFilePath;
+    }
+
+    public void writeReport(HashMap<Integer, List<String>> data) {
         try {
             FileInputStream fIPS= new FileInputStream(excelFilePath); //Read the spreadsheet that needs to be updated
             Workbook wb;
