@@ -21,10 +21,6 @@ public class TestUtil {
         try{
             Thread.sleep(1000);
             String imagePath = Configuration.getInstance().getReportPath() + "/screenshots/"+ imageName + ".png";
-            File currentFile = new File(imagePath);
-            if(currentFile.exists()){
-                currentFile.delete();
-            }
             File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(scrFile, new File(imagePath));
         } catch (Exception e){

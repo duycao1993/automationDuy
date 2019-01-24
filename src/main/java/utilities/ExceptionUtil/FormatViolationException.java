@@ -1,16 +1,16 @@
 package utilities.ExceptionUtil;
 
-public class PasswordIncorrectException extends Exception {
-    public PasswordIncorrectException() {
+public class FormatViolationException extends Exception {
+    public FormatViolationException() {
         super();
     }
 
-    public PasswordIncorrectException(String message) {
+    public FormatViolationException(String message) {
         super(message);
     }
 
     public String getExceptionDetail() {
-        return "Password is incorrect";
+        return "The lenght is incorrect";
     }
 
     @Override

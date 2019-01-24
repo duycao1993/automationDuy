@@ -1,14 +1,14 @@
 package Verification;
 
-import com.google.common.collect.Lists;
 import utilities.ExceptionUtil.PasswordIncorrectException;
-import utilities.ExceptionUtil.SizeViolationException;
+import utilities.ExceptionUtil.FormatViolationException;
+import utilities.ExceptionUtil.UnexpectedErrorException;
 
 import java.util.*;
 
 public enum ErrorsMap {
 
-    LoginFailed(Arrays.asList(PasswordIncorrectException.class.toString(), SizeViolationException.class.toString()));
+    LoginFailed(Arrays.asList(PasswordIncorrectException.class.toString(), FormatViolationException.class.toString(), UnexpectedErrorException.class.toString()));
 
     private final List errorDetail;
 

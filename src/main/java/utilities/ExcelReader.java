@@ -20,53 +20,6 @@ import java.util.logging.Logger;
 public class ExcelReader {
     private Logger log = Logger.getLogger(ExcelReader.class.toString());
 
-//    public List<TestData> readDataExcel(String excelFilePath) {
-//        List<TestData> listUsers = new ArrayList<>();
-//        try{
-//            log.info("Reading excel file!");
-//            FileInputStream inputStream = new FileInputStream(new File(excelFilePath));
-//
-//            Workbook workbook = getWorkbook(inputStream, excelFilePath);
-//            Sheet sheet = workbook.getSheet("Data");
-//            Iterator<Row> rowIterator = sheet.iterator();
-//
-//            //Next the header
-//            rowIterator.next();
-//
-//            while (rowIterator.hasNext()) {
-//                Row row = rowIterator.next();
-//
-//                // Now let's iterate over the columns of the current row
-//                Iterator<Cell> cellIterator = row.cellIterator();
-//                int columnIndex = 0;
-//
-//                TestData data = new TestData();
-//
-//                while (cellIterator.hasNext()) {
-//                    Cell cell = cellIterator.next();
-//
-//                    if(cell.getColumnIndex() == 0){
-//                        int testIndex = (int) cell.getNumericCellValue();
-//                      data.setCaseIndex(testIndex);
-//                    } else if (cell.getColumnIndex() == 1){
-//                        data.setUserName(cell.getStringCellValue());
-//                    } else if(cell.getColumnIndex() == 2){
-//                        data.setPassWord(cell.getStringCellValue());
-//                    }
-//                }
-//
-//                listUsers.add(data);
-//            }
-//
-//            workbook.close();
-//            inputStream.close();
-//        } catch (Exception e){
-//            log.throwing(ExcelReader.class.toString(), "readDataExcel", e );
-//        }
-//        log.info("Reading excel file successful");
-//        return listUsers;
-//    }
-
     //For Test parameters
     public Collection<Object> readDataExcel(String excelFilePath) {
         List<Object> listUsers = new ArrayList<>();

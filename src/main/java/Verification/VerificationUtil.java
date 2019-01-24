@@ -1,9 +1,7 @@
 package Verification;
 
-
-import utilities.ExceptionUtil.LoginFailedException;
 import utilities.ExceptionUtil.PasswordIncorrectException;
-import utilities.ExceptionUtil.SizeViolationException;
+import utilities.ExceptionUtil.FormatViolationException;
 import utilities.ExceptionUtil.UnexpectedErrorException;
 
 import java.util.ArrayList;
@@ -12,31 +10,37 @@ import java.util.List;
 public class VerificationUtil {
     public VerificationUtil() {}
 
-    public List verifyLogin(Exception exception, String expectedResult){
-        String status = StatusEnum.Passed.toString();;
-        String errorDetail = "Login successful";
-        String totalResult = StatusEnum.Passed.toString();
-        List resultList = new ArrayList<String>();
+    public List<String> verifyLogin(Exception exception, String expectedResult){
+        String status;
+        String detail = "Login successful";
+        String totalResult = "Login successful";
+        List<String> resultList = new ArrayList<>();
 
         if(exception != null){
             if(exception instanceof PasswordIncorrectException){
-                errorDetail = ((PasswordIncorrectException) exception).getExceptionDetail();
-            } else if(exception instanceof SizeViolationException){
-                errorDetail = ((SizeViolationException) exception).getExceptionDetail();
+                detail = ((PasswordIncorrectException) exception).getExceptionDetail();
+            } else if(exception instanceof FormatViolationException){
+                detail = ((FormatViolationException) exception).getExceptionDetail();
             } else {
-                errorDetail = new UnexpectedErrorException().getExceptionDetail();
+                detail = new UnexpectedErrorException().getExceptionDetail();
             }
-            totalResult = ((LoginFailedException) exception).getExceptionDetail();
-        }
+            if(ErrorsMap.LoginFailed.getErrorDetail().contains(exception.toString())){
+                totalResult = "Login failed";
+            }
 
-        if(totalResult.equalsIgnoreCase(expectedResult)){
-            status = StatusEnum.Failed.toString();
+            if(totalResult.equalsIgnoreCase(expectedResult)){
+                status = StatusEnum.Passed.toString();
+            } else {
+                status = StatusEnum.Failed.toString();
+            }
         } else {
             status = StatusEnum.Passed.toString();
         }
 
+
+
         resultList.add(status);
-        resultList.add(errorDetail);
+        resultList.add(detail);
 
         return resultList;
     }
