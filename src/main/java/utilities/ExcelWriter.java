@@ -10,9 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ExcelWriter {
 
@@ -22,8 +20,16 @@ public class ExcelWriter {
         this.excelFilePath = excelFilePath;
     }
 
-    public void writeReport(HashMap<Integer, List<String>> data) {
+    private HashMap<Integer, List<String>> putDataIntoMap(int testIndex, List result, long executeTime){
+        HashMap<Integer, List<String>> map = new HashMap<>();
+        result.add(executeTime);
+        map.put(testIndex, result);
+        return map;
+    }
+
+    public void writeReport(int testIndex, List result, long executeTime) {
         try {
+            HashMap<Integer, List<String>> data = putDataIntoMap(testIndex, result, executeTime);
             FileInputStream fIPS= new FileInputStream(excelFilePath); //Read the spreadsheet that needs to be updated
             Workbook wb;
             Sheet worksheet;
@@ -34,8 +40,8 @@ public class ExcelWriter {
             Cell cell;
             for(Map.Entry<Integer, List<String>> dataValue : data.entrySet()) {
                 row = worksheet.getRow(dataValue.getKey());
-                row.getCell(3).setCellValue(dataValue.getValue().get(0));
-                row.getCell(5).setCellValue(dataValue.getValue().get(1));
+                row.getCell(3).setCellValue(dataValue.getValue().get(1));
+                row.getCell(5).setCellValue(dataValue.getValue().get(0));
                 row.getCell(6).setCellValue(dataValue.getValue().get(2));
             }
             fIPS.close(); //Close the InputStream

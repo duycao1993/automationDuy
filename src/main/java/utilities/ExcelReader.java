@@ -121,6 +121,8 @@ public class ExcelReader {
                         user.add(cell.getStringCellValue());
                     } else if(cell.getColumnIndex() == 2){
                         user.add(cell.getStringCellValue());
+                    } else if(cell.getColumnIndex() == 4){
+                        user.add(cell.getStringCellValue());
                     }
                 }
 

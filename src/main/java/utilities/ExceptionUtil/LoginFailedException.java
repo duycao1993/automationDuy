@@ -21,7 +21,12 @@ public class LoginFailedException extends Exception{
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
-    public String getExceptionType(){
-        return LoginFailedException.class.toString();
+    public String getExceptionDetail(){
+        return "Login failed";
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().toString();
     }
 }

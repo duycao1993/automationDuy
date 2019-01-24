@@ -1,4 +1,5 @@
 import Environement.Configuration;
+import Verification.VerificationUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.StopWatch;
 import org.junit.*;
@@ -11,6 +12,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import utilities.*;
 import util.LoginPage;
+import utilities.ExceptionUtil.PasswordIncorrectException;
+import utilities.ExceptionUtil.SizeViolationException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class LoginTest {
     private int testIndex;
     private String userName;
     private String passWord;
+    private String expectedResult;
 
     @Parameterized.Parameters
     public static Collection getData(){
@@ -34,10 +38,11 @@ public class LoginTest {
         return er.readDataExcel(Configuration.getInstance().getDataPath());
     }
 
-    public LoginTest(int testIndex, String userName, String passWord) {
+    public LoginTest(int testIndex, String userName, String passWord, String expectedResult) {
         this.testIndex = testIndex;
         this.userName = userName;
         this.passWord = passWord;
+        this.expectedResult = expectedResult;
     }
 
     @BeforeClass
@@ -66,27 +71,19 @@ public class LoginTest {
     @Test
     public void loginTest() {
         LoginPage loginPage = new LoginPage(driver);
-        String exceptionType;
-//        try{
-//            loginPage.login(driver, userName, passWord);
-//        } catch (LoginFailedException lg){
-//            exceptionType = lg.getExceptionType();
-//        }
-
+        VerificationUtil verify = new VerificationUtil();
+        List result;
+        Exception errorMessage = null;
+        try{
+            loginPage.login(driver,userName,passWord);
+        } catch (Exception e){
+            errorMessage = e;
+        }
+        result = verify.verifyLogin(errorMessage, expectedResult);
         couting.stop();
-        ExcelWriter writer = new ExcelWriter(Configuration.getInstance().getDataPath());
-//        if()
-//        writer.writeReport(putDataIntoMap(null, String.valueOf(isCorrect), couting.getTime()/1000));
-//        Assert.assertTrue(isCorrect);
-    }
 
-    private HashMap<Integer, List<String>> putDataIntoMap(String result, String status, long executeTime){
-        HashMap<Integer, List<String>> map = new HashMap<>();
-        List<String> values = new ArrayList<>();
-        values.add(result);
-        values.add(status);
-        values.add(String.valueOf(executeTime));
-        map.put(this.testIndex, values);
-        return map;
+        ExcelWriter writer = new ExcelWriter(Configuration.getInstance().getDataPath());
+
+        writer.writeReport(this.testIndex, result, couting.getTime()/1000);
     }
 }

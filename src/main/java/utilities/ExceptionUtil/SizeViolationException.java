@@ -22,7 +22,12 @@ public class SizeViolationException extends LoginFailedException {
     }
 
     @Override
-    public String getExceptionType() {
-        return SizeViolationException.class.toString();
+    public String getExceptionDetail() {
+        return "The lenght is incorrect";
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

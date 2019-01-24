@@ -22,7 +22,12 @@ public class PasswordIncorrectException extends LoginFailedException {
     }
 
     @Override
-    public String getExceptionType() {
-        return PasswordIncorrectException.class.toString();
+    public String getExceptionDetail() {
+        return "Password is incorrect";
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
