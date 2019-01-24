@@ -8,9 +8,61 @@ import java.util.logging.Logger;
 public class Configuration {
     Logger log = Logger.getLogger(Configuration.class.toString());
 
-    public String rootPath = System.getProperty("user.dir");
-    public String dataPath;
-    public String reportPath;
+    public String getRootPath() {
+        return rootPath;
+    }
+
+    public void setRootPath(String rootPath) {
+        this.rootPath = rootPath;
+    }
+
+    public String getDataPath() {
+        return dataPath;
+    }
+
+    public void setDataPath(String dataPath) {
+        this.dataPath = dataPath;
+    }
+
+    public String getReportPath() {
+        return reportPath;
+    }
+
+    public void setReportPath(String reportPath) {
+        this.reportPath = reportPath;
+    }
+
+    public String getWebSite() {
+        return webSite;
+    }
+
+    public void setWebSite(String webSite) {
+        this.webSite = webSite;
+    }
+
+    public int getTimeOut() {
+        return timeOut;
+    }
+
+    public void setTimeOut(int timeOut) {
+        this.timeOut = timeOut;
+    }
+
+    private String rootPath = System.getProperty("user.dir");
+    private String dataPath;
+    private String reportPath;
+    private String webSite;
+
+    public String getBrowser() {
+        return browser;
+    }
+
+    public void setBrowser(String browser) {
+        this.browser = browser;
+    }
+
+    private String browser;
+    private int timeOut;
     public static Configuration Instance;
 
     private Configuration() {
