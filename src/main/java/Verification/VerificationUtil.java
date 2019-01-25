@@ -1,5 +1,7 @@
 package Verification;
 
+import Verification.ENUM.ErrorsMap;
+import Verification.ENUM.StatusEnum;
 import utilities.ExceptionUtil.PasswordIncorrectException;
 import utilities.ExceptionUtil.FormatViolationException;
 import utilities.ExceptionUtil.UnexpectedErrorException;
@@ -12,11 +14,11 @@ public class VerificationUtil {
 
     public List<String> verifyLogin(Exception exception, String expectedResult){
         String status;
-        String detail = "Login successful";
-        String totalResult = "Login successful";
+        String detail;
         List<String> resultList = new ArrayList<>();
 
         if(exception != null){
+            String totalResult = "";
             if(exception instanceof PasswordIncorrectException){
                 detail = ((PasswordIncorrectException) exception).getExceptionDetail();
             } else if(exception instanceof FormatViolationException){
@@ -34,6 +36,7 @@ public class VerificationUtil {
                 status = StatusEnum.Failed.toString();
             }
         } else {
+            detail = "Login successful";
             status = StatusEnum.Passed.toString();
         }
 

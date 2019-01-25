@@ -1,4 +1,4 @@
-package utilities;
+package utilities.ExcelUtil;
 
 import Environement.Configuration;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -20,7 +20,11 @@ import java.util.logging.Logger;
 public class ExcelReader {
     private Logger log = Logger.getLogger(ExcelReader.class.toString());
 
-    //For Test parameters
+    /**
+     * Reading the excel file
+     * @param excelFilePath
+     * @return Data in the excel file by Collection<Object>
+     */
     public Collection<Object> readDataExcel(String excelFilePath) {
         List<Object> listUsers = new ArrayList<>();
         try{
@@ -91,6 +95,13 @@ public class ExcelReader {
         return listUsers;
     }
 
+    /**
+     * Get the workbook
+     * @param inputStream
+     * @param excelFilePath
+     * @return the correct workbook
+     * @throws IOException
+     */
     private Workbook getWorkbook(FileInputStream inputStream, String excelFilePath) throws IOException {
         Workbook workbook;
 

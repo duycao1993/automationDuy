@@ -1,5 +1,5 @@
 import Environement.Configuration;
-import Verification.StatusEnum;
+import Verification.ENUM.StatusEnum;
 import Verification.VerificationUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.time.StopWatch;
@@ -11,6 +11,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import utilities.*;
 import TestAction.LoginPage;
+import utilities.ExcelUtil.ExcelReader;
+import utilities.ExcelUtil.ExcelWriter;
 
 import java.io.File;
 import java.util.Collection;
@@ -56,7 +58,7 @@ public class LoginTest {
     public void setUp(){
         ChromeOptions options = new ChromeOptions();
         //options.addArguments("--start-maximized");
-        //options.addArguments("--headless");
+        options.addArguments("--headless");
         driver = new ChromeDriver(options);
         couting = new StopWatch();
         couting.start();
@@ -70,7 +72,7 @@ public class LoginTest {
         driver.quit();
     }
 
-    @Test
+    @Test(timeout = 30000)
     public void loginTest() {
         LoginPage loginPage = new LoginPage(driver);
         Exception errorMessage = null;

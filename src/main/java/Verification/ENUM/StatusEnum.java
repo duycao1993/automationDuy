@@ -1,4 +1,4 @@
-package Verification;
+package Verification.ENUM;
 
 public enum StatusEnum {
     Passed("Passed"),

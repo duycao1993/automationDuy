@@ -31,6 +31,13 @@ public class LoginPage {
         PageFactory.initElements(driver, this);
     }
 
+    /**
+     * Log in
+     * @param driver
+     * @param userName
+     * @param passWord
+     * @throws Exception
+     */
     public void login(WebDriver driver , String userName, String passWord) throws Exception {
         log.info("Starting login");
 

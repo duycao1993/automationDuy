@@ -17,6 +17,10 @@ public class TestUtil {
         this.driver = driver;
     }
 
+    /**
+     * Take the screenshot for the current screen
+     * @param imageName
+     */
     public void takeScreenShot(String imageName){
         try{
             Thread.sleep(1000);

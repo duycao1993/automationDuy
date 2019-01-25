@@ -13,6 +13,12 @@ public class WaitUtil {
         this.webDriver = webDriver;
     }
 
+    /**
+     * Verify if the element is present or not
+     * @param element
+     * @param maxDuration
+     * @return true if the element is present, otherwise return false
+     */
     public boolean isElementPresent(By element, int maxDuration){
         try{
             new WebDriverWait(webDriver, maxDuration).until(ExpectedConditions.presenceOfElementLocated(element));
@@ -20,6 +26,5 @@ public class WaitUtil {
         } catch (Exception e){
             return false;
         }
-
     }
 }

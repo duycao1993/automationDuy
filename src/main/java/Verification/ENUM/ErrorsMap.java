@@ -1,4 +1,4 @@
-package Verification;
+package Verification.ENUM;
 
 import utilities.ExceptionUtil.PasswordIncorrectException;
 import utilities.ExceptionUtil.FormatViolationException;
