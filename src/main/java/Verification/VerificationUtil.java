@@ -2,9 +2,9 @@ package Verification;
 
 import Verification.ENUM.ErrorsMap;
 import Verification.ENUM.StatusEnum;
-import utilities.ExceptionUtil.PasswordIncorrectException;
-import utilities.ExceptionUtil.FormatViolationException;
-import utilities.ExceptionUtil.UnexpectedErrorException;
+import Utilities.ExceptionUtil.PasswordIncorrectException;
+import Utilities.ExceptionUtil.FormatViolationException;
+import Utilities.ExceptionUtil.UnexpectedErrorException;
 
 import java.util.ArrayList;
 import java.util.List;

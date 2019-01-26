@@ -1,4 +1,4 @@
-package utilities.ExceptionUtil;
+package Utilities.ExceptionUtil;
 
 public class FormatViolationException extends Exception {
     public FormatViolationException() {

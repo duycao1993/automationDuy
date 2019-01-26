@@ -1,4 +1,4 @@
-package utilities;
+package Utilities;
 
 import Environement.Configuration;
 import org.apache.commons.io.FileUtils;
@@ -24,7 +24,7 @@ public class TestUtil {
     public void takeScreenShot(String imageName){
         try{
             Thread.sleep(1000);
-            String imagePath = Configuration.getInstance().getReportPath() + "/screenshots/"+ imageName + ".png";
+            String imagePath = Configuration.getInstance().getReportPath() + "/screenshots/"+ imageName + ".jpg";
             File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(scrFile, new File(imagePath));
         } catch (Exception e){

@@ -1,4 +1,4 @@
-package utilities.ExceptionUtil;
+package Utilities.ExceptionUtil;
 
 public class UnexpectedErrorException extends Exception{
     public UnexpectedErrorException() {

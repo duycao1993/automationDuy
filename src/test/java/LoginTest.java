@@ -9,10 +9,10 @@ import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import utilities.*;
+import Utilities.*;
 import TestAction.LoginPage;
-import utilities.ExcelUtil.ExcelReader;
-import utilities.ExcelUtil.ExcelWriter;
+import Utilities.ExcelUtil.ExcelReader;
+import Utilities.ExcelUtil.ExcelWriter;
 
 import java.io.File;
 import java.util.Collection;

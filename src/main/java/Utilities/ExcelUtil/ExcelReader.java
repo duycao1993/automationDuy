@@ -1,4 +1,4 @@
-package utilities.ExcelUtil;
+package Utilities.ExcelUtil;
 
 import Environement.Configuration;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

@@ -6,9 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import utilities.ExceptionUtil.PasswordIncorrectException;
-import utilities.ExceptionUtil.FormatViolationException;
-import utilities.WaitUtil;
+import Utilities.ExceptionUtil.PasswordIncorrectException;
+import Utilities.ExceptionUtil.FormatViolationException;
+import Utilities.WaitUtil;
 
 public class LoginPage {
     private Logger log = Logger.getLogger(LoginPage.class);
